@@ -44,6 +44,24 @@ public class EmployeeDatabase {
         return manager;
     }
 
+
+    /**
+     * Returns the manager for the given employee.
+     *
+     * @param manager
+     * @return
+     */
+    Employee findEmployee(final Employee manager) {
+        Employee employee = null;
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getManager().equals(manager.getName())) {
+                employee = employees.get(i);
+                break;
+            }
+        }
+        return employee;
+    }
+
     /**
      * Count the number of managers above this employee.
      * <p>
@@ -53,9 +71,14 @@ public class EmployeeDatabase {
      * @return int
      */
     public int countManagersAbove(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        int countManagers = 0;
+        Employee manager = findManager(employee);
+
+        if (manager == null) {
+            return 0;
+        }
+        countManagers += (1 + countManagersAbove(manager));
+        return countManagers;
     }
 
     /**
@@ -67,9 +90,14 @@ public class EmployeeDatabase {
      * @return int
      */
     public int countEmployeesUnder(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        int countEmployees = 0;
+        Employee underEmployee = findEmployee(employee);
+
+        if (underEmployee == null) {
+            return 0;
+        }
+        countEmployees += (1 + countEmployeesUnder(underEmployee));
+        return countEmployees;
     }
 
     /**
